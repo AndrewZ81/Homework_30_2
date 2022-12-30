@@ -39,9 +39,11 @@ class UserCreateViewSerializer(ModelSerializer):
 
     def create(self, validated_data):
         new_user = User.objects.create(**validated_data)
+        new_user.set_password(validated_data["password"])
         for loc in self._location:
             new_location, _ = Location.objects.get_or_create(name=loc)
             new_user.location.add(new_location)
+        new_user.save()
         return new_user
 
     class Meta:

@@ -2,6 +2,7 @@ from django.db.models import Model, CharField, ManyToManyField, \
     PositiveSmallIntegerField, DecimalField, TextChoices
 
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractUser
 
 
 class Location(Model):
@@ -24,7 +25,7 @@ class UserRole(TextChoices):
     ADMIN = "Admin", _("admin")
 
 
-class User(Model):
+class User(AbstractUser):
 
     class Meta:
         verbose_name = "Пользователь"
