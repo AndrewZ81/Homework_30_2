@@ -24,7 +24,7 @@ class UserDetailView(RetrieveAPIView):
 
 class UserCreateView(CreateAPIView):
     """
-    Cоздаёт новую запись User по id
+    Cоздаёт новую запись User
     """
     queryset = User.objects.all()
     serializer_class = UserCreateViewSerializer

@@ -25,6 +25,7 @@ class UserDetailViewSerializer(ModelSerializer):
 
 
 class UserCreateViewSerializer(ModelSerializer):
+
     location = SlugRelatedField(
         required=False,
         many=True,

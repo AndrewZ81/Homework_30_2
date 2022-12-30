@@ -37,7 +37,7 @@ class User(AbstractUser):
     first_name = CharField(max_length=200, null=True)
     last_name = CharField(max_length=200, null=True)
     username = CharField(max_length=200, unique=True)
-    password = CharField(max_length=20)
+    password = CharField(max_length=200)
     role = CharField(max_length=9, choices=UserRole.choices)
     age = PositiveSmallIntegerField()
     location = ManyToManyField(Location)
