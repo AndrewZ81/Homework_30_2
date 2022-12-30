@@ -72,6 +72,7 @@ class UserUpdateViewSerializer(ModelSerializer):
         for loc in self._location:
             new_location, _ = Location.objects.get_or_create(name=loc)
             user.location.add(new_location)
+        user.save()
         return user
 
     class Meta:
