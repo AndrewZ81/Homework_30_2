@@ -68,7 +68,8 @@ class UserUpdateViewSerializer(ModelSerializer):
     def save(self, **kwargs):
         user = super().save(**kwargs)
         user.set_password(user.password)
-        user.location.clear()
+        if self._location:
+            user.location.clear()
         for loc in self._location:
             new_location, _ = Location.objects.get_or_create(name=loc)
             user.location.add(new_location)
