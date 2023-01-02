@@ -13,9 +13,6 @@ import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-import rest_framework.authentication
-import rest_framework_simplejwt.authentication
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -139,8 +136,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication"
+       "rest_framework_simplejwt.authentication.JWTAuthentication",
     ]
 }
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
