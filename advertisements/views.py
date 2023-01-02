@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, DeleteView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
 
 from advertisements.models import Category, Advertisement
 from advertisements.serializers import CategoryViewSetSerializer, AdvertisementListViewSerializer, \
@@ -114,6 +115,7 @@ class AdvertisementDetailView(RetrieveAPIView):
     """
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementDetailViewSerializer
+    permission_classes = [IsAuthenticated]
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -123,6 +125,7 @@ class AdvertisementUpdateView(UpdateView):
     """
     model = Advertisement
     fields = "__all__"
+
 
     def patch(self, request, *args, **kwargs) -> JsonResponse:
         super().post(request, *args, **kwargs)
