@@ -3,7 +3,7 @@ from rest_framework.relations import SlugRelatedField, PrimaryKeyRelatedField, S
 from rest_framework.serializers import ModelSerializer
 
 from advertisements.models import Category, Advertisement
-from users.models import User
+from users.models import User, Location
 
 
 class CategoryViewSetSerializer(ModelSerializer):
@@ -47,3 +47,36 @@ class AdvertisementDetailViewSerializer(ModelSerializer):
     def get_locations(self, ad):
         setattr(ad, "locations", [location.name for location in ad.author.location.all()])
         return ad.locations
+
+
+class AdvertisementUpdateViewSerializer(ModelSerializer):
+    author_id = PrimaryKeyRelatedField(queryset=User.objects.all())
+    author = SlugRelatedField(
+        read_only=True,
+        slug_field="username",
+    )
+    category_id = PrimaryKeyRelatedField(queryset=Category.objects.all())
+    category = StringRelatedField()
+    locations = SerializerMethodField()
+
+    def get_locations(self, ad):
+        return [location.name for location in ad.author.location.all()]
+
+    def is_valid(self, *, raise_exception=False):
+        advertisement_locations = self.initial_data.pop("location", [])
+        setattr(self, "_location", advertisement_locations)
+        return super().is_valid(raise_exception=raise_exception)
+
+    def save(self, **kwargs):
+        advertisement = super().save(**kwargs)
+        if self._location:
+            advertisement.author.location.clear()
+            for loc in self._location:
+                new_location, _ = Location.objects.get_or_create(name=loc)
+                advertisement.author.location.add(new_location)
+        advertisement.save()
+        return advertisement
+
+    class Meta:
+        model = Advertisement
+        fields = "__all__"
