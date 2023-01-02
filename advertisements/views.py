@@ -6,11 +6,12 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, DeleteView
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, DestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
 from advertisements.models import Category, Advertisement
+from advertisements.permissions import AdvertisementUpdateDeletePermission
 from advertisements.serializers import CategoryViewSetSerializer, AdvertisementListViewSerializer, \
     AdvertisementDetailViewSerializer
 from users.models import User
@@ -158,18 +159,13 @@ class AdvertisementUpdateView(UpdateView):
         return JsonResponse(response_as_dict, json_dumps_params={"ensure_ascii": False, "indent": 4})
 
 
-@method_decorator(csrf_exempt, name="dispatch")
-class AdvertisementDeleteView(DeleteView):
+class AdvertisementDeleteView(DestroyAPIView):
     """
-    Удаляет запись Advertisement
+    Удаляет запись таблицы Объявления по id
     """
-    model = Advertisement
-    success_url = "/"
-
-    def delete(self, request, *args, **kwargs) -> JsonResponse:
-        super().delete(request, *args, **kwargs)
-
-        return JsonResponse({"status": "ok"}, status=200)
+    queryset = Advertisement.objects.all()
+    serializer_class = AdvertisementDetailViewSerializer
+    permission_classes = [IsAuthenticated, AdvertisementUpdateDeletePermission]
 
 
 @method_decorator(csrf_exempt, name="dispatch")

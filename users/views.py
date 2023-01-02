@@ -1,6 +1,5 @@
 from rest_framework.generics import RetrieveAPIView, ListAPIView, DestroyAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
 
 from users.models import User, Location
 from users.serializers import LocationViewSetSerializer, UserDetailViewSerializer, \
@@ -21,7 +20,6 @@ class UserDetailView(RetrieveAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserDetailViewSerializer
-    permission_classes = [IsAuthenticated]
 
 
 class UserCreateView(CreateAPIView):
