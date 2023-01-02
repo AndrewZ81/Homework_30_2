@@ -36,7 +36,7 @@ class CategoryViewSet(ModelViewSet):
 
 class AdvertisementListView(ListAPIView):
     """
-    Отображает таблицу Advertisement, при запросе фильтрует записи:
+    Отображает таблицу Объявления, при запросе фильтрует записи:
      - по категориям
      - по местоположению
      - по тексту в названии объявления
@@ -73,7 +73,7 @@ class AdvertisementListView(ListAPIView):
 @method_decorator(csrf_exempt, name="dispatch")
 class AdvertisementCreateView(CreateView):
     """
-    Cоздаёт новую запись Advertisement
+    Cоздаёт новую запись таблицы Объявления по id
     """
     model = Advertisement
     fields = "__all__"
@@ -122,7 +122,7 @@ class AdvertisementDetailView(RetrieveAPIView):
 @method_decorator(csrf_exempt, name="dispatch")
 class AdvertisementUpdateView(UpdateView):
     """
-    Редактирует запись Advertisement
+    Редактирует запись таблицы Объявления по id
     """
     model = Advertisement
     fields = "__all__"
@@ -171,7 +171,7 @@ class AdvertisementDeleteView(DestroyAPIView):
 @method_decorator(csrf_exempt, name="dispatch")
 class AdvertisementUploadImage(UpdateView):
     """
-    Добавляет изображение к записи Advertisement по id
+    Добавляет изображение к записи таблицы Объявления по id
     """
     model = Advertisement
     fields = "__all__"
