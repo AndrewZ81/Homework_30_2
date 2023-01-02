@@ -5,15 +5,15 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, UpdateView, DeleteView
-from rest_framework.generics import ListAPIView, RetrieveAPIView, DestroyAPIView
+from django.views.generic import CreateView, UpdateView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
 from advertisements.models import Category, Advertisement
 from advertisements.permissions import AdvertisementUpdateDeletePermission
 from advertisements.serializers import CategoryViewSetSerializer, AdvertisementListViewSerializer, \
-    AdvertisementDetailViewSerializer
+    AdvertisementDetailViewSerializer, AdvertisementUpdateViewSerializer
 from users.models import User
 
 
@@ -119,44 +119,13 @@ class AdvertisementDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
 
 
-@method_decorator(csrf_exempt, name="dispatch")
-class AdvertisementUpdateView(UpdateView):
+class AdvertisementUpdateView(UpdateAPIView):
     """
     Редактирует запись таблицы Объявления по id
     """
-    model = Advertisement
-    fields = "__all__"
-
-
-    def patch(self, request, *args, **kwargs) -> JsonResponse:
-        super().post(request, *args, **kwargs)
-        advertisement_data: Dict[str, str | int] = json.loads(request.body)
-
-        if "name" in advertisement_data:
-            self.object.name = advertisement_data["name"]
-        if "price" in advertisement_data:
-            self.object.price = advertisement_data["price"]
-        if "description" in advertisement_data:
-            self.object.description = advertisement_data["description"]
-
-        self.object.save()
-
-        response_as_dict: Dict[str, int | str] = {
-            "id": self.object.id,
-            "name": self.object.name,
-            "author_id": self.object.author_id,
-            "author": self.object.author.username,
-            "price": self.object.price,
-            "description": self.object.description,
-            "address": [
-                _location.name for _location in self.object.author.location.all()
-            ],
-            "image": self.object.image.url if self.object.image else None,
-            "is_published": self.object.is_published,
-            "category_id": self.object.category.id,
-            "category_name": self.object.category.name
-        }
-        return JsonResponse(response_as_dict, json_dumps_params={"ensure_ascii": False, "indent": 4})
+    queryset = Advertisement.objects.all()
+    serializer_class = AdvertisementUpdateViewSerializer
+    permission_classes = [IsAuthenticated, AdvertisementUpdateDeletePermission]
 
 
 class AdvertisementDeleteView(DestroyAPIView):
