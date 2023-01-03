@@ -111,3 +111,13 @@ class SelectionCreateViewSerializer(ModelSerializer):
     class Meta:
         model = Selection
         fields = "__all__"
+
+
+class SelectionUpdateViewSerializer(ModelSerializer):
+    """
+    Сериализует изменение подборки объявлений
+    """
+
+    class Meta:
+        model = Selection
+        fields = "__all__"
