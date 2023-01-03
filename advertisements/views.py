@@ -10,10 +10,10 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, DestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
-from advertisements.models import Category, Advertisement
+from advertisements.models import Category, Advertisement, Selection
 from advertisements.permissions import AdvertisementUpdateDeletePermission
 from advertisements.serializers import CategoryViewSetSerializer, AdvertisementListViewSerializer, \
-    AdvertisementDetailViewSerializer, AdvertisementUpdateViewSerializer
+    AdvertisementDetailViewSerializer, AdvertisementUpdateViewSerializer, SelectionDetailViewSerializer
 from users.models import User
 
 
@@ -166,3 +166,11 @@ class AdvertisementUploadImage(UpdateView):
             "category_name": self.object.category.name
         }
         return JsonResponse(response_as_dict, json_dumps_params={"ensure_ascii": False, "indent": 4})
+
+
+class SelectionDetailView(RetrieveAPIView):
+    """
+    Делает выборку записи из таблицы Подборка объявлений по id
+    """
+    queryset = Selection.objects.all()
+    serializer_class = SelectionDetailViewSerializer
