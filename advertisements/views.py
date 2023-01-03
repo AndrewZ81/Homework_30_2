@@ -13,7 +13,8 @@ from rest_framework.permissions import IsAuthenticated
 from advertisements.models import Category, Advertisement, Selection
 from advertisements.permissions import AdvertisementUpdateDeletePermission
 from advertisements.serializers import CategoryViewSetSerializer, AdvertisementListViewSerializer, \
-    AdvertisementDetailViewSerializer, AdvertisementUpdateViewSerializer, SelectionDetailViewSerializer
+    AdvertisementDetailViewSerializer, AdvertisementUpdateViewSerializer, SelectionDetailViewSerializer, \
+    SelectionListViewSerializer
 from users.models import User
 
 
@@ -174,3 +175,11 @@ class SelectionDetailView(RetrieveAPIView):
     """
     queryset = Selection.objects.all()
     serializer_class = SelectionDetailViewSerializer
+
+
+class SelectionListView(ListAPIView):
+    """
+    Отображает таблицу Подборка объявлений
+    """
+    queryset = Selection.objects.all()
+    serializer_class = SelectionListViewSerializer
