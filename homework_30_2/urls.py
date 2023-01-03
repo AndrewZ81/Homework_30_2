@@ -34,7 +34,8 @@ urlpatterns = [
     path('', views.show_main_page),
     path('ad/', include("advertisements.urls.advertisements")),
     path('user/', include("users.urls.users")),
-    path('api-auth/', include("rest_framework.urls"))
+    path('api-auth/', include("rest_framework.urls")),
+    path('selection/', include("advertisements.urls.selections")),
 ]
 
 urlpatterns += location_router.urls
