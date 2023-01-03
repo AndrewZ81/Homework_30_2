@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView
-from rest_framework.generics import ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView, CreateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
@@ -14,7 +14,7 @@ from advertisements.models import Category, Advertisement, Selection
 from advertisements.permissions import AdvertisementUpdateDeletePermission
 from advertisements.serializers import CategoryViewSetSerializer, AdvertisementListViewSerializer, \
     AdvertisementDetailViewSerializer, AdvertisementUpdateViewSerializer, SelectionDetailViewSerializer, \
-    SelectionListViewSerializer
+    SelectionListViewSerializer, SelectionCreateViewSerializer
 from users.models import User
 
 
@@ -183,3 +183,12 @@ class SelectionListView(ListAPIView):
     """
     queryset = Selection.objects.all()
     serializer_class = SelectionListViewSerializer
+
+
+class SelectionCreateView(CreateAPIView):
+    """
+    Cоздаёт новую запись таблицы Подборка объявлений
+    """
+    queryset = Selection.objects.all()
+    serializer_class = SelectionCreateViewSerializer
+    permission_classes = [IsAuthenticated]
