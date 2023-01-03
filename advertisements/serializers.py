@@ -83,7 +83,9 @@ class AdvertisementUpdateViewSerializer(ModelSerializer):
 
 
 class SelectionDetailViewSerializer(ModelSerializer):
-
+    """
+    Сериализует подборку объявлений по id подборки
+    """
     items = AdvertisementDetailViewSerializer(many=True)
 
     class Meta:
