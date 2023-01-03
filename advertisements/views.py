@@ -11,7 +11,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
 from advertisements.models import Category, Advertisement, Selection
-from advertisements.permissions import AdvertisementUpdateDeletePermission
+from advertisements.permissions import AdvertisementUpdateDeletePermission, SelectionUpdateDeletePermission
 from advertisements.serializers import CategoryViewSetSerializer, AdvertisementListViewSerializer, \
     AdvertisementDetailViewSerializer, AdvertisementUpdateViewSerializer, SelectionDetailViewSerializer, \
     SelectionListViewSerializer, SelectionCreateViewSerializer, SelectionUpdateViewSerializer
@@ -209,4 +209,4 @@ class SelectionDeleteView(DestroyAPIView):
     """
     queryset = Selection.objects.all()
     serializer_class = SelectionUpdateViewSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, SelectionUpdateDeletePermission]
