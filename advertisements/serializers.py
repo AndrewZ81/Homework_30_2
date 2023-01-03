@@ -91,3 +91,13 @@ class SelectionDetailViewSerializer(ModelSerializer):
     class Meta:
         model = Selection
         fields = "__all__"
+
+
+class SelectionListViewSerializer(ModelSerializer):
+    """
+    Сериализует подборку объявлений по id подборки
+    """
+
+    class Meta:
+        model = Selection
+        fields = ["id", "name"]
