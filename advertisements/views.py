@@ -201,3 +201,12 @@ class SelectionUpdateView(UpdateAPIView):
     queryset = Selection.objects.all()
     serializer_class = SelectionUpdateViewSerializer
     permission_classes = [IsAuthenticated]
+
+
+class SelectionDeleteView(DestroyAPIView):
+    """
+    Удаляет запись таблицы Подборка объявлений по id
+    """
+    queryset = Selection.objects.all()
+    serializer_class = SelectionUpdateViewSerializer
+    permission_classes = [IsAuthenticated]
