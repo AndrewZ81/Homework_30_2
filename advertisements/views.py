@@ -14,7 +14,7 @@ from advertisements.models import Category, Advertisement, Selection
 from advertisements.permissions import AdvertisementUpdateDeletePermission
 from advertisements.serializers import CategoryViewSetSerializer, AdvertisementListViewSerializer, \
     AdvertisementDetailViewSerializer, AdvertisementUpdateViewSerializer, SelectionDetailViewSerializer, \
-    SelectionListViewSerializer, SelectionCreateViewSerializer
+    SelectionListViewSerializer, SelectionCreateViewSerializer, SelectionUpdateViewSerializer
 from users.models import User
 
 
@@ -191,4 +191,13 @@ class SelectionCreateView(CreateAPIView):
     """
     queryset = Selection.objects.all()
     serializer_class = SelectionCreateViewSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class SelectionUpdateView(UpdateAPIView):
+    """
+    Редактирует запись таблицы Подборка объявлений по id
+    """
+    queryset = Selection.objects.all()
+    serializer_class = SelectionUpdateViewSerializer
     permission_classes = [IsAuthenticated]
