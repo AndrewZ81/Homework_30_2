@@ -2,7 +2,7 @@ from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import SlugRelatedField, PrimaryKeyRelatedField, StringRelatedField
 from rest_framework.serializers import ModelSerializer
 
-from advertisements.models import Category, Advertisement
+from advertisements.models import Category, Advertisement, Selection
 from users.models import User, Location
 
 
@@ -79,4 +79,13 @@ class AdvertisementUpdateViewSerializer(ModelSerializer):
 
     class Meta:
         model = Advertisement
+        fields = "__all__"
+
+
+class SelectionDetailViewSerializer(ModelSerializer):
+
+    items = AdvertisementDetailViewSerializer(many=True)
+
+    class Meta:
+        model = Selection
         fields = "__all__"
