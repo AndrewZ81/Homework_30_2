@@ -95,7 +95,7 @@ class SelectionDetailViewSerializer(ModelSerializer):
 
 class SelectionListViewSerializer(ModelSerializer):
     """
-    Сериализует подборку объявлений по id подборки
+    Сериализует все подборки объявлений
     """
 
     class Meta:
