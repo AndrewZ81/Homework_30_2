@@ -200,7 +200,7 @@ class SelectionUpdateView(UpdateAPIView):
     """
     queryset = Selection.objects.all()
     serializer_class = SelectionUpdateViewSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, SelectionUpdateDeletePermission]
 
 
 class SelectionDeleteView(DestroyAPIView):

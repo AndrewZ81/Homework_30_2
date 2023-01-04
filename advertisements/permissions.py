@@ -10,16 +10,12 @@ class AdvertisementUpdateDeletePermission(BasePermission):
         if request.user.role == UserRole.MODERATOR or \
                 request.user.role == UserRole.ADMIN:
             return True
-        if request.user.id == entity.author_id:
-            return True
-        return False
 
 
 class SelectionUpdateDeletePermission(BasePermission):
     message = "Access denied for not owners"
 
-    def has_permission(self, request, view):
-        if request.user.id == entity.owner_id:
+    def has_object_permission(self, request, view, obj):
+        if request.user.id == obj.owner_id:
             return True
         return False
-        
